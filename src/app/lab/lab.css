@@ -1,0 +1,628 @@
+/* ————————————————————————————————————————————————
+   /lab — concept test styles.
+   Every selector is prefixed `.lab-` so nothing here can collide
+   with, or be affected by, the main site's globals.css.
+   ———————————————————————————————————————————————— */
+
+.lab-root {
+  --lab-paper: #f6f5f1;
+  --lab-paper-deep: #eae8e0;
+  --lab-ink: #121316;
+  --lab-line: #dbd8ce;
+  --lab-trace: #7c5cfc;
+  --lab-signal: #1f9c82;
+  --lab-mono: #74716a;
+  --lab-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  position: relative;
+  isolation: isolate;
+  background: var(--lab-paper);
+  color: var(--lab-ink);
+}
+
+.lab-mono-label {
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+/* ————————————————————————————————————————————————
+   Bar — tiny persistent chrome so /lab never feels like a dead end
+   ———————————————————————————————————————————————— */
+.lab-bar {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem clamp(1.1rem, 3vw, 2rem);
+  border-bottom: 1px solid var(--lab-line);
+  background: color-mix(in srgb, var(--lab-paper) 82%, transparent);
+  backdrop-filter: blur(8px);
+  color: var(--lab-ink);
+}
+
+.lab-bar a {
+  color: inherit;
+  transition: opacity 200ms ease;
+}
+
+.lab-bar a:hover {
+  opacity: 0.55;
+}
+
+.lab-bar-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.lab-bar-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+  animation: lab-dot-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes lab-dot-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* ————————————————————————————————————————————————
+   Hero stage — a tall scroll track with a pinned frame inside,
+   so the hero can "disassemble" as you scroll past it.
+   ———————————————————————————————————————————————— */
+.lab-stage {
+  position: relative;
+  min-height: 220svh;
+  background: var(--lab-paper);
+}
+
+.lab-frame {
+  position: sticky;
+  top: 3.5rem;
+  height: calc(100svh - 3.5rem);
+  overflow: hidden;
+  background: var(--lab-paper);
+}
+
+.lab-grain {
+  position: absolute;
+  inset: -10%;
+  z-index: 0;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.lab-wash {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(60% 45% at 22% 18%, color-mix(in srgb, var(--lab-trace) 3%, transparent), transparent),
+    radial-gradient(50% 40% at 82% 78%, color-mix(in srgb, var(--lab-signal) 3%, transparent), transparent);
+  pointer-events: none;
+}
+
+.lab-eyebrow {
+  position: absolute;
+  z-index: 5;
+  top: clamp(1.5rem, 5vh, 2.5rem);
+  inset-inline: 0;
+  display: flex;
+  justify-content: center;
+  color: var(--lab-mono);
+  text-align: center;
+  pointer-events: none;
+}
+
+.lab-eyebrow span {
+  padding-inline: 1rem;
+}
+
+/* ————————————————————————————————————————————————
+   Giant morphing word — the graphic core of the hero
+   ———————————————————————————————————————————————— */
+.lab-word-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.lab-word-clip {
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+}
+
+.lab-word {
+  margin: 0;
+  width: 100%;
+  font-family: var(--font-shoulders), "Arial Narrow", sans-serif;
+  font-weight: 900;
+  font-variation-settings: "opsz" 72;
+  line-height: 0.8;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--lab-ink);
+  font-size: clamp(3.4rem, 14.5vw, 13.5rem);
+  white-space: nowrap;
+}
+
+.lab-word-char {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+}
+
+/* ————————————————————————————————————————————————
+   Character mark — abstract geometric "builder" silhouette
+   ———————————————————————————————————————————————— */
+.lab-figure-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.lab-figure {
+  animation: lab-float 7s ease-in-out infinite;
+  filter: drop-shadow(0 2rem 3rem rgb(18 19 22 / 0.14));
+}
+
+.lab-figure-svg {
+  width: clamp(11rem, 23vw, 19rem);
+  height: auto;
+}
+
+@keyframes lab-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+/* ————————————————————————————————————————————————
+   Project reel — the infinite esteira of real work
+   ———————————————————————————————————————————————— */
+.lab-reel-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: clamp(4.5rem, 15vh, 8rem);
+  overflow: hidden;
+}
+
+.lab-reel-track {
+  display: flex;
+  align-items: center;
+  gap: clamp(2.25rem, 6vw, 4.5rem);
+  width: max-content;
+  animation: lab-reel-scroll 46s linear infinite;
+}
+
+.lab-reel-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes lab-reel-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.lab-card {
+  position: relative;
+  flex: none;
+  width: clamp(8.5rem, 11vw, 11.5rem);
+  border-radius: 0.85rem;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--lab-ink) 10%, transparent);
+  background: var(--lab-paper);
+  box-shadow: 0 1.5rem 3rem rgb(18 19 22 / 0.1);
+  transition:
+    transform 450ms var(--lab-ease),
+    filter 450ms var(--lab-ease),
+    box-shadow 450ms var(--lab-ease),
+    width 450ms var(--lab-ease);
+  pointer-events: auto;
+}
+
+.lab-card--far {
+  transform: scale(0.86) translateY(1.4rem);
+  filter: blur(1.5px);
+  opacity: 0.82;
+}
+
+.lab-card--near {
+  transform: translateY(-0.6rem);
+}
+
+.lab-card:hover {
+  width: clamp(12.5rem, 17vw, 16rem);
+  filter: none;
+  opacity: 1;
+  transform: translateY(-0.9rem) scale(1.02);
+  box-shadow: 0 2.5rem 4rem rgb(18 19 22 / 0.22);
+  z-index: 2;
+}
+
+.lab-card-frame {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--lab-paper-deep);
+}
+
+.lab-card-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  filter: grayscale(1) contrast(1.05);
+  transition:
+    transform 600ms var(--lab-ease),
+    filter 450ms var(--lab-ease);
+}
+
+.lab-card:hover .lab-card-frame img {
+  transform: scale(1.06);
+  filter: grayscale(0.35) contrast(1.05);
+}
+
+.lab-card-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0.9rem 1rem 1rem;
+  background: linear-gradient(to top, rgb(18 19 22 / 0.92) 0%, rgb(18 19 22 / 0.55) 46%, transparent 78%);
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 320ms var(--lab-ease),
+    transform 320ms var(--lab-ease);
+  color: var(--lab-paper);
+}
+
+.lab-card:hover .lab-card-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.lab-card-title {
+  font-family: var(--font-plex-sans), sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.lab-card-role {
+  margin-top: 0.3rem;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--lab-paper) 70%, transparent);
+}
+
+.lab-card-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.55rem;
+}
+
+.lab-card-stack span {
+  padding: 0.15rem 0.4rem;
+  border: 1px solid color-mix(in srgb, var(--lab-paper) 35%, transparent);
+  border-radius: 999px;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 0.5625rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--lab-paper) 88%, transparent);
+}
+
+/* ————————————————————————————————————————————————
+   Flanking tags — small captions either side of the figure
+   ———————————————————————————————————————————————— */
+.lab-tags {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.lab-tag {
+  position: absolute;
+  top: 60%;
+  padding: 0.4rem 0.7rem;
+  border-radius: 0.35rem;
+  background: color-mix(in srgb, var(--lab-paper) 78%, transparent);
+  backdrop-filter: blur(6px);
+  font-family: var(--font-shoulders), sans-serif;
+  font-weight: 700;
+  font-size: clamp(0.7rem, 1.3vw, 0.9375rem);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.lab-tag--left {
+  left: clamp(1rem, 6vw, 5.5rem);
+}
+
+.lab-tag--right {
+  right: clamp(1rem, 6vw, 5.5rem);
+}
+
+/* ————————————————————————————————————————————————
+   Scroll cue
+   ———————————————————————————————————————————————— */
+.lab-cue {
+  position: absolute;
+  z-index: 5;
+  bottom: clamp(1.25rem, 4vh, 2rem);
+  inset-inline: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.lab-cue-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.85rem 1.1rem 1rem;
+  border-radius: 999px;
+  background: var(--lab-ink);
+  color: var(--lab-paper);
+  font-family: var(--font-shoulders), sans-serif;
+  font-weight: 700;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.lab-cue-arrow {
+  animation: lab-cue-bob 1.8s var(--lab-ease) infinite;
+}
+
+@keyframes lab-cue-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+@keyframes lab-cue-draw {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+    opacity: 0.9;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+    opacity: 0.5;
+  }
+  50.01% {
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+    opacity: 0.9;
+  }
+}
+
+/* ————————————————————————————————————————————————
+   Secondary section — the systems the reel pointed at
+   ———————————————————————————————————————————————— */
+.lab-work {
+  position: relative;
+  z-index: 1;
+  background: var(--lab-paper);
+  padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 5vw, 4rem) clamp(6rem, 10vw, 8rem);
+  border-top: 1px solid var(--lab-line);
+}
+
+.lab-work-inner {
+  width: min(100%, 72rem);
+  margin-inline: auto;
+}
+
+.lab-work-head {
+  max-width: 34rem;
+}
+
+.lab-work-head h2 {
+  margin-top: 0.75rem;
+  font-family: var(--font-shoulders), sans-serif;
+  font-weight: 800;
+  font-variation-settings: "opsz" 72;
+  font-size: clamp(2rem, 4.4vw, 3.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.lab-work-head p {
+  margin-top: 1rem;
+  max-width: 40ch;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--lab-ink) 62%, transparent);
+}
+
+.lab-work-grid {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--lab-line);
+  border-left: 1px solid var(--lab-line);
+}
+
+.lab-work-item {
+  position: relative;
+  display: block;
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+  border-right: 1px solid var(--lab-line);
+  border-bottom: 1px solid var(--lab-line);
+  overflow: hidden;
+  transition: background-color 320ms var(--lab-ease);
+}
+
+.lab-work-item:hover {
+  background: var(--lab-paper-deep);
+}
+
+.lab-work-item-domain {
+  color: var(--lab-mono);
+}
+
+.lab-work-item h3 {
+  margin-top: 0.6rem;
+  font-family: var(--font-plex-sans), sans-serif;
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.lab-work-item p {
+  margin-top: 0.6rem;
+  max-width: 32ch;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--lab-ink) 60%, transparent);
+}
+
+.lab-work-item-arrow {
+  position: absolute;
+  top: clamp(1.75rem, 3vw, 2.5rem);
+  right: clamp(1.75rem, 3vw, 2.5rem);
+  color: var(--lab-trace);
+  transition: transform 320ms var(--lab-ease);
+}
+
+.lab-work-item:hover .lab-work-item-arrow {
+  transform: translate(3px, -3px);
+}
+
+/* ————————————————————————————————————————————————
+   Footer note
+   ———————————————————————————————————————————————— */
+.lab-note {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.75rem clamp(1.25rem, 5vw, 4rem);
+  border-top: 1px solid var(--lab-line);
+  color: var(--lab-mono);
+  background: var(--lab-paper);
+}
+
+.lab-note a {
+  color: var(--lab-ink);
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.1rem;
+}
+
+/* ————————————————————————————————————————————————
+   Responsive
+   ———————————————————————————————————————————————— */
+@media (max-width: 767px) {
+  .lab-bar {
+    padding: 0.9rem 1.1rem;
+  }
+
+  .lab-word {
+    font-size: clamp(2.75rem, 15vw, 4.5rem);
+  }
+
+  .lab-eyebrow {
+    top: 3.75rem;
+  }
+
+  .lab-reel-layer {
+    align-items: flex-end;
+    padding-bottom: 8.5rem;
+  }
+
+  .lab-card {
+    width: 8.5rem;
+  }
+
+  .lab-card:hover {
+    width: 11rem;
+  }
+
+  .lab-tags {
+    display: none;
+  }
+
+  .lab-work-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ————————————————————————————————————————————————
+   Reduced motion — everything still works, nothing moves on its own
+   ———————————————————————————————————————————————— */
+@media (prefers-reduced-motion: reduce) {
+  .lab-reel-track {
+    animation: none;
+  }
+
+  .lab-figure {
+    animation: none;
+  }
+
+  .lab-bar-dot,
+  .lab-cue-arrow {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .lab-card,
+  .lab-card-frame img,
+  .lab-card-overlay,
+  .lab-work-item,
+  .lab-work-item-arrow {
+    transition: none;
+  }
+}
